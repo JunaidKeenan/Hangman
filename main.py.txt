@@ -1,0 +1,38 @@
+import random
+import hangman_words
+import hangman_art
+
+lives = 6
+game_on = True
+chosen_word = random.choice(hangman_words.word_list)
+print(hangman_art.logo)
+
+display=[]
+for i in range(len(chosen_word)):
+    display+="_"
+##display = ["_"]*len(chosen_word)          What I did. Also works
+
+while game_on:
+    if "_" in display:
+        guess = input("Enter a letter: ").lower()
+        
+        if guess in display:
+            print("You already guessed that")
+            
+        for position in range(len(chosen_word)):
+            letter = chosen_word[position]
+            if letter == guess:
+                display[position] = letter
+        print(" ".join(display))        
+        
+        if guess not in chosen_word:
+            print(f"{guess} is not in the word")
+            lives-=1
+            print(hangman_art.stages[lives])
+            if lives == 0:
+                game_on = False
+                print(f"LOSER!The answer was {chosen_word}")
+        
+    else:
+        game_on = False
+        print("YOU WIN!")
